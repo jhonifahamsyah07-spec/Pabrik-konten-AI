@@ -5,7 +5,6 @@ st.set_page_config(page_title="Pabrik Konten AI - Boss Edition", page_icon="🤖
 st.title("🤖 Pabrik Konten AI - Boss Edition")
 st.markdown("Pabrik konten otomatis lengkap dengan **Storyboard, Dialog, & AI Prompt**. Tinggal klik, langsung eksekusi!")
 
-# Pilihan Menu Lengkap
 menu = st.selectbox(
     "Pilih Jenis Konten:", 
     [
