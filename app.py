@@ -1,106 +1,82 @@
 import streamlit as st
 
-st.set_page_config(page_title="Pabrik Konten AI - Boss Edition", page_icon="🤖", layout="centered")
+st.set_page_config(page_title="Pabrik Konten AI - Boss Edition Pro", page_icon="🚀", layout="centered")
 
-st.title("🤖 Pabrik Konten AI - Boss Edition")
-st.markdown("Pabrik konten otomatis lengkap dengan **Storyboard, Dialog, & AI Prompt**. Tinggal klik, langsung eksekusi!")
+st.title("🤖 Pabrik Konten AI - Pro Edition")
+st.markdown("Pabrik konten otomatis berbasis *Workflow* interaktif untuk kebutuhan kreator & affiliate.")
 
+# Pilihan Menu Utama
 menu = st.selectbox(
-    "Pilih Jenis Konten:", 
-    [
-        "AI Mini Drama (Storyboard & Dialog)", 
-        "Konten Affiliate TikTok/Reels", 
-        "Edukasi & Tips Kreatif", 
-        "Motion Control & Prompt Kamera"
-    ]
+    "Pilih Modul Konten:", 
+    ["Affiliate Generator", "AI Mini Drama Studio", "Edukasi & Tips Kreatif"]
 )
 
-topik = st.text_input("Masukkan Ide / Produk:", placeholder="Contoh: Kurir paket di tengah hujan / Kopi susu kekinian")
+st.markdown("---")
 
-if st.button("🚀 START / GENERATE KONTEN"):
-    if topik:
-        st.success("Berhasil memproses! Ini storyboard & skrip lengkap siap pakai untuk Boss:")
-        
-        if "Mini Drama" in menu:
-            st.markdown("---")
-            st.markdown("### 🎬 Storyboard & Skrip AI Mini Drama (60 Detik)")
-            st.markdown(f"**Tema/Ide:** {topik}")
-            st.markdown("**Format:** 6 Adegan x 10 Detik (Sempurna untuk Omni-Flash 1.1)")
+if "Affiliate" in menu:
+    st.subheader("🛍️ Modul Konten Affiliate Interaktif")
+    
+    # 1. Upload Foto Produk
+    uploaded_file = st.file_uploader("1. Upload Foto Produk:", type=["jpg", "jpeg", "png"])
+    if uploaded_file is not None:
+        st.image(uploaded_file, caption="Preview Foto Produk Boss", use_container_width=True)
+        st.success("Foto produk berhasil diunggah!")
+
+    # 2. Masukkan Nama & Keunggulan Produk
+    nama_produk = st.text_input("2. Masukkan Nama Produk:", placeholder="Contoh: Sepatu Sneakers Anti Air")
+    keunggulan = st.text_area("Keunggulan / Benefit Utama:", placeholder="Contoh: Anti air, ringan dipakai lari, tidak bikin bau kaki.")
+
+    # 3. Pilih Durasi Video
+    durasi = st.selectbox("3. Pilih Durasi Video:", ["15 Detik (Fast & Catchy)", "30 Detik (Standard TikTok/Reels)", "60 Detik (Detailed Review)"])
+
+    # 4. Pilih Gaya Penjualan
+    gaya = st.radio("4. Pilih Gaya Penjualan:", ["Hard Selling (Tegas & Urgensi Tinggi)", "Soft Selling (Storytelling & Emosional)"])
+
+    # 5. Pilih Jumlah Frame Storyboard
+    jumlah_frame = st.slider("5. Pilih Jumlah Frame Storyboard:", min_value=3, max_value=8, value=5)
+
+    st.markdown("---")
+
+    # 6. Tombol Generate
+    if st.button("🚀 6. GENERATE STORYBOARD & PROMPT"):
+        if nama_produk and keunggulan:
+            st.success("Storyboard & Prompt Affiliate Berhasil Dibuat!")
+            st.markdown(f"### 📋 Hasil Perencanaan Konten: {nama_produk}")
+            st.markdown(f"**Gaya:** {gaya} | **Durasi:** {durasi} | **Total Frame:** {jumlah_frame}")
             
-            st.markdown("""
-            * **Karakter Utama:** Tokoh utama yang gigih dan berdedikasi tinggi.
-            * **Setting Waktu:** Sore/Malam hari dengan pencahayaan sinematik dramatis.
-            """)
-            
-            st.markdown("#### 📝 Rincian Scene & Dialog:")
-            
-            st.markdown("---")
-            st.markdown("**Scene 1 (0-10 detik): Opening Hook**")
-            st.markdown("* **Visual / Kamera:** *Wide shot*, cuaca mendung, tokoh berdiri menatap jalanan.")
-            st.markdown("* **Dialog / Suara:** *\"Kadang hidup nggak kasih tahu kapan badai datang, tapi kita yang harus tetep jalan.\"*")
-            st.markdown("* **Prompt AI Video:** *Cinematic wide shot, dramatic weather, highly detailed, 8k, 10s.*")
-
-            st.markdown("---")
-            st.markdown("**Scene 2 (10-20 detik): Konflik / Tantangan**")
-            st.markdown("* **Visual / Kamera:** *Close-up* ekspresi wajah kelelahan tapi penuh tekad.")
-            st.markdown("* **Dialog / Suara:** *\"Capek? Pasti. Tapi kalau berhenti sekarang, impian tinggal angan-angan.\"*")
-            st.markdown("* **Prompt AI Video:** *Close up emotional portrait, realistic lighting, 10s.*")
-
-            st.markdown("---")
-            st.markdown("**Scene 3 (20-30 detik): Aksi Utama**")
-            st.markdown("* **Visual / Kamera:** *Medium shot* saat tokoh mulai bergerak fokus menyelesaikan tugas.")
-            st.markdown("* **Dialog / Suara:** *\"Nggak ada hasil yang mengkhianati usaha. Bismillah.\"*")
-            st.markdown("* **Prompt AI Video:** *Action shot, dynamic angle, cinematic atmosphere, 10s.*")
-
-            st.markdown("---")
-            st.markdown("**Scene 4 (30-40 detik): Titik Balik Emosional**")
-            st.markdown("* **Visual / Kamera:** Interaksi hangat atau momen kelegaan.")
-            st.markdown("* **Dialog / Suara:** *\"Makasih ya, Pak/Bu. Ini sangat berarti buat saya.\"*")
-            st.markdown("* **Prompt AI Video:** *Two shot, warm emotional interaction, cinematic, 10s.*")
-
-            st.markdown("---")
-            st.markdown("**Scene 5 (40-50 detik): Klimaks**")
-            st.markdown("* **Visual / Kamera:** Senja mulai berganti malam, lampu kota menyala indah (*bokeh*).")
-            st.markdown("* **Dialog / Suara:** *Musik latar menghentak pelan, suasana penuh rasa syukur.*")
-            st.markdown("* **Prompt AI Video:** *Night city lights bokeh, beautiful cinematic lighting, 10s.*")
-
-            st.markdown("---")
-            st.markdown("**Scene 6 (50-60 detik): Ending & Moral Cerita**")
-            st.markdown("* **Visual / Kamera:** *Slow zoom-out* senyuman ikhlas dari tokoh utama. *Fade out*.")
-            st.markdown("* **Dialog / Suara:** *\"Jangan patah semangat buat hari ini, Boss. Besok kita coba lebih keras lagi.\"*")
-            st.markdown("* **Prompt AI Video:** *Portrait slow zoom out, inspiring ending, cinematic fade, 10s.*")
-            
-            st.info("💡 **Tips Omni-Flash 1.1:** Gunakan teks prompt di atas per scene secara berurutan agar konsistensi karakter terjaga!")
-
-        elif "Affiliate" in menu:
-            st.markdown("---")
-            st.markdown("### 🛍️ Skrip Konten Affiliate TikTok/Reels")
-            st.markdown(f"**Produk:** {topik}")
-            st.markdown("""
-            * **Hook (0-5d):** "Jujur, awalnya aku ragu sama produk ini, tapi setelah dicobain... wah gila sih!"
-            * **Body (5-25d):** Tunjukkan detail produk, bahan, dan manfaat utamanya dengan gaya santai.
-            * **CTA / Ending (25-45d):** "Stok terbatas ya, buat yang mau samaan langsung klik keranjang kuning di bawah!"
-            """)
-
-        elif "Edukasi" in menu:
-            st.markdown("---")
-            st.markdown("### 📚 Skrip Konten Edukasi & Tips")
-            st.markdown(f"**Topik:** {topik}")
-            st.markdown("""
-            * **Hook (0-5d):** "Tiga rahasia yang jarang orang tahu soal {topik}!"
-            * **Poin 1, 2, 3:** Penjelasan singkat padat berisi.
-            * **Ending:** "Simpan video ini kalau nanti butuh ya, Boss!"
-            """)
-
+            for i in range(1, jumlah_frame + 1):
+                st.markdown(f"#### 🎬 Frame {i}")
+                if i == 1:
+                    st.markdown(f"* **Visual:** Close-up produk {nama_produk} dengan pencahayaan sinematik.")
+                    st.markdown(f"* **Hook/Dialog:** \"Jujur kaget banget pas nyobain {nama_produk} ini...\"")
+                    st.markdown(f"* **Prompt AI Video:** *Product close up shot, cinematic lighting, ultra-detailed, 8k, 5s.*")
+                elif i == jumlah_frame:
+                    st.markdown(f"* **Visual:** Teks keranjang kuning / tombol checkout menyala.")
+                    st.markdown(f"* **Call to Action:** \"Stok terbatas buat Boss, buruan klik keranjang kuning sekarang!\"")
+                    st.markdown(f"* **Prompt AI Video:** *Call to action screen, glowing shopping cart icon, dynamic, 5s.*")
+                else:
+                    st.markdown(f"* **Visual:** Menunjukkan keunggulan: *{keunggulan}*.")
+                    st.markdown(f"* **Dialog:** \"Nih lihat sendiri buktinya, bener-bener fungsional banget.\"")
+                    st.markdown(f"* **Prompt AI Video:** *Action shot demonstrating product features, realistic, 5s.*")
+                st.markdown("---")
         else:
-            st.markdown("---")
-            st.markdown("### 🎥 Generator Motion Control & Kamera")
-            st.markdown(f"**Kebutuhan:** {topik}")
-            st.markdown("""
-            * **Camera Movement:** Pan-left, Slow Zoom-in, Crane Shot.
-            * **Lighting Style:** Cinematic Golden Hour / Moody Neon Cyberpunk.
-            * **Prompt Siap Pakai:** Optimized for AI Video Generation tools.
-            """)
-            
-    else:
-        st.warning("Mohon isi dulu kolom ide atau produknya ya, Boss!")
+            st.warning("Mohon isi Nama Produk dan Keunggulannya dulu ya, Boss!")
+
+else:
+    st.subheader("🎬 Modul AI Mini Drama & Edukasi")
+    topik_umum = st.text_input("Masukkan Ide Cerita / Topik:", placeholder="Contoh: Perjuangan kurir paket")
+    jml_scene = st.slider("Pilih Jumlah Scene Storyboard:", min_value=3, max_value=6, value=4)
+    
+    if st.button("🚀 GENERATE MINI DRAMA"):
+        if topik_umum:
+        # Menghasilkan output mini drama dinamis sesuai jumlah scene yang dipilih
+            st.success("Storyboard Mini Drama Siap Dieksekusi!")
+            st.markdown(f"### 🎥 Storyboard: {topik_umum}")
+            for s in range(1, jml_scene + 1):
+                st.markdown(f"#### 🎞️ Scene {s} (Durasi: 10 Detik)")
+                st.markdown(f"* **Visual Scene:** Penggambaran adegan ke-{s} untuk tema {topik_umum}.")
+                st.markdown(f"* **Dialog Tokoh:** *\"Dialog emosional atau narasi untuk adegan {s}...\"*")
+                st.markdown(f"* **Prompt AI Video (Omni-Flash 1.1):** *Cinematic scene {s}, dramatic angle, 10s.*")
+                st.markdown("---")
+        else:
+            st.warning("Mohon isi ide ceritanya dulu, Boss!")
