@@ -1,82 +1,76 @@
 import streamlit as st
 
-st.set_page_config(page_title="Pabrik Konten AI - Boss Edition Pro", page_icon="🚀", layout="centered")
+st.set_page_config(page_title="Pabrik Konten AI - Boss Edition Pro", page_icon="🎬", layout="centered")
 
-st.title("🤖 Pabrik Konten AI - Pro Edition")
-st.markdown("Pabrik konten otomatis berbasis *Workflow* interaktif untuk kebutuhan kreator & affiliate.")
-
-# Pilihan Menu Utama
-menu = st.selectbox(
-    "Pilih Modul Konten:", 
-    ["Affiliate Generator", "AI Mini Drama Studio", "Edukasi & Tips Kreatif"]
-)
+st.title("🎬 Pabrik Konten AI - Flow Edition")
+st.markdown("Pabrik Storyboard & Prompt otomatis untuk Google Flow & Video AI.")
 
 st.markdown("---")
 
-if "Affiliate" in menu:
-    st.subheader("🛍️ Modul Konten Affiliate Interaktif")
-    
-    # 1. Upload Foto Produk
-    uploaded_file = st.file_uploader("1. Upload Foto Produk:", type=["jpg", "jpeg", "png"])
-    if uploaded_file is not None:
-        st.image(uploaded_file, caption="Preview Foto Produk Boss", use_container_width=True)
-        st.success("Foto produk berhasil diunggah!")
+# 1. Upload Produk & Pilih Talent
+st.subheader("1. Setup Aset Utama")
+produk_img = st.file_uploader("Upload Foto Produk:", type=["jpg", "jpeg", "png"])
+if produk_img is not None:
+    st.image(produk_img, caption="Foto Produk Terunggah", use_container_width=True)
 
-    # 2. Masukkan Nama & Keunggulan Produk
-    nama_produk = st.text_input("2. Masukkan Nama Produk:", placeholder="Contoh: Sepatu Sneakers Anti Air")
-    keunggulan = st.text_area("Keunggulan / Benefit Utama:", placeholder="Contoh: Anti air, ringan dipakai lari, tidak bikin bau kaki.")
+talent_option = st.selectbox(
+    "Pilih Talent:", 
+    ["Custom AI Avatar (Brand Sendiri)", "AI Model Wanita Lokal (Friendly & Natural)", "AI Model Pria Profesional", "Biarkan AI yang Memilihkan"]
+)
 
-    # 3. Pilih Durasi Video
-    durasi = st.selectbox("3. Pilih Durasi Video:", ["15 Detik (Fast & Catchy)", "30 Detik (Standard TikTok/Reels)", "60 Detik (Detailed Review)"])
+nama_produk = st.text_input("Nama / Topik Produk:", placeholder="Contoh: Sepatu Sneakers Anti Air / Kopi Herbal")
+keunggulan = st.text_area("Keunggulan Produk:", placeholder="Contoh: Ringan, anti air, harga terjangkau.")
 
-    # 4. Pilih Gaya Penjualan
-    gaya = st.radio("4. Pilih Gaya Penjualan:", ["Hard Selling (Tegas & Urgensi Tinggi)", "Soft Selling (Storytelling & Emosional)"])
+st.markdown("---")
 
-    # 5. Pilih Jumlah Frame Storyboard
-    jumlah_frame = st.slider("5. Pilih Jumlah Frame Storyboard:", min_value=3, max_value=8, value=5)
+# 2. Mode Marketing & Durasi
+st.subheader("2. Pengaturan Durasi & Strategi")
+mode_marketing = st.radio("Pilih Mode Marketing:", ["Soft Selling (Storytelling & Emosional)", "Hard Selling (Tegas & Urgensi Tinggi)"])
 
-    st.markdown("---")
+# Pilihan Durasi (Otomatis hitung frame: 10 detik per frame standar AI)
+pilihan_durasi = st.selectbox("Pilih Durasi Video:", ["10 Detik (1 Frame)", "20 Detik (2 Frame)", "30 Detik (3 Frame)", "60 Detik (6 Frame)"])
 
-    # 6. Tombol Generate
-    if st.button("🚀 6. GENERATE STORYBOARD & PROMPT"):
-        if nama_produk and keunggulan:
-            st.success("Storyboard & Prompt Affiliate Berhasil Dibuat!")
-            st.markdown(f"### 📋 Hasil Perencanaan Konten: {nama_produk}")
-            st.markdown(f"**Gaya:** {gaya} | **Durasi:** {durasi} | **Total Frame:** {jumlah_frame}")
-            
-            for i in range(1, jumlah_frame + 1):
-                st.markdown(f"#### 🎬 Frame {i}")
-                if i == 1:
-                    st.markdown(f"* **Visual:** Close-up produk {nama_produk} dengan pencahayaan sinematik.")
-                    st.markdown(f"* **Hook/Dialog:** \"Jujur kaget banget pas nyobain {nama_produk} ini...\"")
-                    st.markdown(f"* **Prompt AI Video:** *Product close up shot, cinematic lighting, ultra-detailed, 8k, 5s.*")
-                elif i == jumlah_frame:
-                    st.markdown(f"* **Visual:** Teks keranjang kuning / tombol checkout menyala.")
-                    st.markdown(f"* **Call to Action:** \"Stok terbatas buat Boss, buruan klik keranjang kuning sekarang!\"")
-                    st.markdown(f"* **Prompt AI Video:** *Call to action screen, glowing shopping cart icon, dynamic, 5s.*")
-                else:
-                    st.markdown(f"* **Visual:** Menunjukkan keunggulan: *{keunggulan}*.")
-                    st.markdown(f"* **Dialog:** \"Nih lihat sendiri buktinya, bener-bener fungsional banget.\"")
-                    st.markdown(f"* **Prompt AI Video:** *Action shot demonstrating product features, realistic, 5s.*")
-                st.markdown("---")
-        else:
-            st.warning("Mohon isi Nama Produk dan Keunggulannya dulu ya, Boss!")
-
+# Hitung jumlah frame berdasarkan durasi yang dipilih
+if "20 Detik" in pilihan_durasi:
+    total_frame = 2
+elif "30 Detik" in pilihan_durasi:
+    total_frame = 3
+elif "60 Detik" in pilihan_durasi:
+    total_frame = 6
 else:
-    st.subheader("🎬 Modul AI Mini Drama & Edukasi")
-    topik_umum = st.text_input("Masukkan Ide Cerita / Topik:", placeholder="Contoh: Perjuangan kurir paket")
-    jml_scene = st.slider("Pilih Jumlah Scene Storyboard:", min_value=3, max_value=6, value=4)
-    
-    if st.button("🚀 GENERATE MINI DRAMA"):
-        if topik_umum:
-        # Menghasilkan output mini drama dinamis sesuai jumlah scene yang dipilih
-            st.success("Storyboard Mini Drama Siap Dieksekusi!")
-            st.markdown(f"### 🎥 Storyboard: {topik_umum}")
-            for s in range(1, jml_scene + 1):
-                st.markdown(f"#### 🎞️ Scene {s} (Durasi: 10 Detik)")
-                st.markdown(f"* **Visual Scene:** Penggambaran adegan ke-{s} untuk tema {topik_umum}.")
-                st.markdown(f"* **Dialog Tokoh:** *\"Dialog emosional atau narasi untuk adegan {s}...\"*")
-                st.markdown(f"* **Prompt AI Video (Omni-Flash 1.1):** *Cinematic scene {s}, dramatic angle, 10s.*")
-                st.markdown("---")
-        else:
-            st.warning("Mohon isi ide ceritanya dulu, Boss!")
+    total_frame = 1
+
+st.info(f"💡 Durasi terpilih: **{pilihan_durasi}** | Sistem otomatis memecah menjadi **{total_frame} Frame Storyboard** (masing-masing 10 detik).")
+
+st.markdown("---")
+
+# 3. Tombol Generate
+if st.button("🚀 GENERATE STORYBOARD & PROMPT GOOGLE FLOW"):
+    if nama_produk and keunggulan:
+        st.success("Berhasil! Storyboard siap dibawa ke Google Flow:")
+        st.markdown(f"### 📋 Rencana Konten: {nama_produk}")
+        st.markdown(f"**Talent:** {talent_option} | **Mode:** {mode_marketing} | **Total:** {total_frame} Frame")
+        st.markdown("---")
+        
+        # Looping frame otomatis sesuai durasi
+        for i in range(1, total_frame + 1):
+            st.markdown(f"#### 🎞️ Storyboard Frame {i} (10 Detik)")
+            
+            if i == 1:
+                st.markdown(f"* **Visual Scene:** Talent ({talent_option}) memegang produk {nama_produk} dengan ekspresi kaget/tertarik.")
+                st.markdown(f"* **Naskah / Dialog:** \"Sumpah, baru tahu ada {nama_produk} sebagus ini...\"")
+                st.markdown(f"* **Prompt Google Flow:** *Cinematic 4k shot, talent holding {nama_produk}, expressive face, professional lighting, 10s.*")
+            elif i == total_frame:
+                st.markdown(f"* **Visual Scene:** Close-up produk dengan teks keranjang kuning menyala.")
+                st.markdown(f"* **Naskah / Dialog:** \"Jangan sampai kehabisan, langsung klik keranjang di bawah ya!\"")
+                st.markdown(f"* **Prompt Google Flow:** *Product close up shot, glowing checkout button, dynamic motion, 10s.*")
+            else:
+                st.markdown(f"* **Visual Scene:** Memperlihatkan keunggulan: *{keunggulan}*.")
+                st.markdown(f"* **Naskah / Dialog:** \"Nih lihat sendiri buktinya, bener-bener fungsional banget buat dipakai sehari-hari.\"")
+                st.markdown(f"* **Prompt Google Flow:** *Action shot demonstrating product features, high resolution, 10s.*")
+                
+            st.markdown("---")
+            
+        st.info("💡 **Tips Eksekusi:** Salin teks **Prompt Google Flow** di atas satu per satu ke *tool* generator video AI untuk merender tiap frame-nya!")
+    else:
+        st.warning("Mohon isi dulu Nama / Topik Produk dan Keunggulannya, Boss!")
