@@ -1,37 +1,67 @@
-// Fungsi untuk memanggil AI dan menghasilkan storyboard bersih khusus affiliate
-async function generateStoryboardScript(productName, productFeatures, promoStyle, duration) {
-  
-  // System instructions / Prompt ketat untuk AI
-  const systemInstruction = `
-  Kamu adalah AI Content Director profesional untuk affiliate marketer. 
-  Tugasmu adalah menganalisis produk dan membuat storyboard video short-form.
-  
-  ATURAN MUTLAK:
-  1. WAJIB menyebutkan nama produk secara spesifik (${productName}) dalam naskah dan prompt visual. Jangan gunakan teks template generik!
-  2. Format output WAJIB HANYA menampilkan dua hal per frame agar mudah disalin (sekali copy):
-     - 🎬 Prompt Visual & Sinematik
-     - 📋 Naskah & Dialog (Sekali Copy)
-  3. Jangan sertakan kalimat pembuka, basa-basi, atau penutup. Langsung berikan format kodenya saja!
-  `;
+import streamlit as st
+import google.generativeai as genai
 
-  const userPrompt = `
-  Produk: ${productName}
-  Keunggulan: ${productFeatures}
-  Gaya Promosi: ${promoStyle}
-  Durasi Video: ${duration}
-  `;
+# Konfigurasi Halaman Streamlit
+st.set_page_config(page_title="Pabrik Konten AI Studio", page_icon="🎬", layout="centered")
 
-  try {
-    // Contoh pemanggilan model AI di backend Node.js
-    const response = await aiModel.generateContent({
-      contents: [
-        { role: 'user', parts: [{ text: systemInstruction }, { text: userPrompt }] }
-      ]
-    });
+st.title("🎬 Pabrik Konten AI Studio")
+st.write("Pencetak storyboard & skrip video affiliate otomatis, cepat, dan siap pakai.")
 
-    return response.text; // Mengembalikan hasil teks yang sudah bersih
-  } catch (error) {
-    console.error("Gagal generate storyboard:", error);
-    return "Terjadi kesalahan saat memproses produk.";
-  }
-}
+# Form Input Pengguna
+uploaded_file = st.file_uploader("📸 Upload Foto Produk di Sini", type=["png", "jpg", "jpeg"])
+product_name_input = st.text_input("Nama Produk (Opsional / Jika ingin dipertegas)", placeholder="Contoh: Serum Glowing X")
+promo_style = st.selectbox("Pilih Gaya Promosi", ["Soft Selling", "Hard Selling", "UGC Unboxing", "Problem-Solution", "Before-After", "FOMO", "POV"])
+duration = st.selectbox("Pilih Durasi Video", ["10 Detik (1 Frame)", "20 Detik (2 Frame)", "30 Detik (3 Frame)"])
+
+if st.button("Generate Storyboard"):
+    if uploaded_file is not None:
+        with st.spinner("Sedang menganalisis produk dan meracik skrip..."):
+            try:
+                # Konfigurasi Gemini API (Pastikan API Key sudah diset di Secrets Streamlit)
+                # genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+                
+                # Instruksi Mutlak untuk AI (System Prompt)
+                system_instruction = """
+                Kamu adalah AI Content Director profesional untuk affiliate marketer. 
+                Tugasmu adalah menganalisis foto produk yang diunggah dan merumuskan storyboard video short-form.
+                
+                ATURAN FORMAT OUTPUT (WAJIB DIPATUHI):
+                - JANGAN gunakan teks pengantar, basa-basi, atau penutup.
+                - Format output WAJIB HANYA berisi dua elemen inti per frame agar bisa disalin sekali klik:
+                  1. Prompt Visual & Sinematik
+                  2. Naskah & Dialog (Sekali Copy)
+                - WAJIB menyebutkan nama produk secara spesifik di dalam prompt visual dan naskah dialog. Jangan gunakan template kosong.
+                """
+
+                # Prompt tambahan dari input user
+                user_prompt = f"""
+                Buatkan storyboard untuk produk di foto ini.
+                - Nama Produk Tambahan: {product_name_input if product_name_input else "Deteksi otomatis dari foto"}
+                - Gaya Promosi: {promo_style}
+                - Durasi Target: {duration}
+                """
+
+                # Memanggil Model Gemini (Gunakan gemini-2.5-flash atau model aktif sesuai setup Anda)
+                model = genai.GenerativeModel(
+                    model_name="gemini-2.5-flash",
+                    system_instruction=system_instruction
+                )
+                
+                # Mengirim gambar dan teks ke AI
+                image_bytes = uploaded_file.getvalue()
+                image_part = {
+                    "mime_type": uploaded_file.type,
+                    "data": image_bytes
+                }
+                
+                response = model.generate_content([image_part, user_prompt])
+                
+                # Menampilkan Hasil Bersih
+                st.success("Foto produk berhasil dianalisis! Silakan salin naskah di bawah:")
+                st.markdown("---")
+                st.markdown(response.text)
+                
+            except Exception as e:
+                st.error(f"Terjadi kesalahan saat memproses: {e}")
+    else:
+                st.warning("Silakan upload foto produk terlebih dahulu, Boss!")
