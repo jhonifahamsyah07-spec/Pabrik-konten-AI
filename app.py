@@ -7,7 +7,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# Tema & Styling Modern Ungu Estetik
+# Perbaikan Styling: Kotak kontras terang & teks jelas terbaca
 st.markdown("""
     <style>
     .main {
@@ -27,22 +27,29 @@ st.markdown("""
         background: linear-gradient(90deg, #6d28d9, #9333ea);
         color: #fff;
     }
-    .frame-box {
-        background-color: #1e1e2f;
+    /* Kotak kartu hasil frame dengan latar terang agar teks sangat jelas */
+    .frame-card {
+        background-color: #ffffff;
+        color: #1f2937;
         padding: 20px;
-        border-radius: 10px;
-        border: 1px solid #4c1d95;
+        border-radius: 12px;
+        border: 2px solid #7c3aed;
         margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .frame-card h4 {
+        color: #6d28d9;
+        margin-top: 0;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Judul Aplikasi Langsung di Muka
+# Judul Aplikasi
 st.title("🎬 Pabrik Konten AI Studio")
 st.markdown("Pencetak storyboard & skrip video affiliate otomatis, cepat, dan siap pakai.")
 st.markdown("---")
 
-# --- AREA UTAMA: LANGSUNG UPLOAD & PILIHAN TANPA SIDEBAR GESER ---
+# --- INPUT UTAMA ---
 uploaded_file = st.file_uploader("📸 Upload Foto Produk di Sini", type=["jpg", "jpeg", "png"])
 
 col1, col2 = st.columns(2)
@@ -83,76 +90,81 @@ generate_btn = st.button("✨ Generate Storyboard Sekarang")
 # --- PROSES & HASIL OUTPUT ---
 if generate_btn:
     if uploaded_file is not None:
-        st.success("✅ Foto produk berhasil dianalisis! Berikut hasil storyboard siap *copy*:")
+        st.success("✅ Foto produk berhasil dianalisis! Silakan salin naskah di bawah:")
         st.markdown("---")
         
-        # Logika Output Berdasarkan Durasi & Lokasi
         loc_desc = f"Setting lokasi: {location_type}." if location_type != "Auto / Menyesuaikan Produk" else ""
         
         if "10 Detik" in duration:
-            st.markdown("""
-            <div class="frame-box">
+            st.markdown(f"""
+            <div class="frame-card">
                 <h4><b>Frame 1 (0-10s) — Format Padat Tunggal</b></h4>
-                <p><b>Prompt Visual & Sinematik:</b><br>
+                <p><b>🎬 Prompt Visual & Sinematik:</b><br>
                 Cinematic 4k, close up product, professional lighting, clean aesthetic. {loc_desc} Talent menunjukkan produk dengan ekspresi antusias.</p>
-                <p><b>Naskah & Dialog (Sekali Copy):</b><br>
-                <i>"Wah gila sih ini, bener-bener penyelamat banget buat atasi masalah kita sehari-hari! Kualitasnya juara dan gampang banget dipakai. Mumpung lagi ada promo, buruan chekout sekarang sebelum kehabisan di keranjang kuning!"</i></p>
-                <p><b>Google Flow Video Prompt:</b><br>
-                <code>Dynamic product showcase, fast paced transition, 4k resolution, smooth camera movement.</code></p>
             </div>
-            """.format(loc_desc=loc_desc), unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
+            
+            st.text_area("📋 Naskah & Dialog (Sekali Copy - Frame 1):", 
+                         "Wah gila sih ini, bener-bener penyelamat banget buat atasi masalah kita sehari-hari! Kualitasnya juara dan gampang banget dipakai. Mumpung lagi ada promo, buruan chekout sekarang sebelum kehabisan di keranjang kuning!", 
+                         height=100)
+            
+            st.code("Google Flow Video Prompt:\nDynamic product showcase, fast paced transition, 4k resolution, smooth camera movement.", language="text")
             
         elif "20 Detik" in duration:
-            st.markdown("""
-            <div class="frame-box">
+            st.markdown(f"""
+            <div class="frame-card">
                 <h4><b>Frame 1 (0-10s) — Hook & Masalah Awal</b></h4>
-                <p><b>Prompt Visual & Sinematik:</b><br>
+                <p><b>🎬 Prompt Visual & Sinematik:</b><br>
                 Unboxing package moment, aesthetic desk setup, bright lighting. {loc_desc} Talent membuka paket dengan ekspresi penasaran.</p>
-                <p><b>Naskah & Dialog (Sekali Copy):</b><br>
-                <i>"Sumpah kaget banget pas paket ini datang, sebagus itu! Buat kalian yang sering punya masalah sama hal kayak gini, wajib banget tonton video ini sampai habis."</i></p>
-                <p><b>Google Flow Video Prompt:</b><br>
-                <code>Unboxing package, close up hands opening box, bright aesthetic lighting.</code></p>
             </div>
+            """, unsafe_allow_html=True)
             
-            <div class="frame-box">
+            st.text_area("📋 Naskah & Dialog (Sekali Copy - Frame 1):", 
+                         "Sumpah kaget banget pas paket ini datang, sebagus itu! Buat kalian yang sering punya masalah sama hal kayak gini, wajib banget tonton video ini sampai habis.", 
+                         height=90)
+            st.code("Google Flow Prompt 1:\nUnboxing package, close up hands opening box, bright aesthetic lighting.", language="text")
+            
+            st.markdown(f"""
+            <div class="frame-card" style="margin-top: 20px;">
                 <h4><b>Frame 2 (10-20s) — Solusi & Call to Action (CTA)</b></h4>
-                <p><b>Prompt Visual & Sinematik:</b><br>
+                <p><b>🎬 Prompt Visual & Sinematik:</b><br>
                 Product in action, happy expression, smooth transition. {loc_desc} Talent menunjukkan hasil produk dan menunjuk keranjang kuning.</p>
-                <p><b>Naskah & Dialog (Sekali Copy):</b><br>
-                <i>"Setelah dicoba, hasilnya beneran di luar dugaan! Gampang dipakai, hemat waktu, dan awet banget. Mumpung stok masih ada dan lagi diskon, langsung klik keranjang kuning di bawah ya!"</i></p>
-                <p><b>Google Flow Video Prompt:</b><br>
-                <code>Product demonstration, smiling model pointing down, high conversion e-commerce style.</code></p>
             </div>
-            """.format(loc_desc=loc_desc), unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
+            
+            st.text_area("📋 Naskah & Dialog (Sekali Copy - Frame 2):", 
+                         "Setelah dicoba, hasilnya beneran di luar dugaan! Gampang dipakai, hemat waktu, dan awet banget. Mumpung stok masih ada dan lagi diskon, langsung klik keranjang kuning di bawah ya!", 
+                         height=90)
+            st.code("Google Flow Prompt 2:\nProduct demonstration, smiling model pointing down, high conversion e-commerce style.", language="text")
             
         else: # 30 Detik
-            st.markdown("""
-            <div class="frame-box">
+            st.markdown(f"""
+            <div class="frame-card">
                 <h4><b>Frame 1 (0-10s) — Hook & Unboxing</b></h4>
-                <p><b>Prompt Visual & Sinematik:</b><br>
+                <p><b>🎬 Prompt Visual & Sinematik:</b><br>
                 Dynamic hook scene, aesthetic opening. {loc_desc} Talent memegang produk dengan ekspresi takjub.</p>
-                <p><b>Naskah & Dialog (Sekali Copy):</b><br>
-                <i>"Jangan beli barang ini sebelum kalian tahu rahasia kelebihannya! Paketnya udah nyampe dan kita langsung buktikan sekarang."</i></p>
             </div>
+            """, unsafe_allow_html=True)
+            st.text_area("📋 Naskah & Dialog (Frame 1):", "Jangan beli barang ini sebelum kalian tahu rahasia kelebihannya! Paketnya udah nyampe dan kita langsung buktikan sekarang.", height=80)
             
-            <div class="frame-box">
+            st.markdown(f"""
+            <div class="frame-card" style="margin-top: 20px;">
                 <h4><b>Frame 2 (10-20s) — Ulasan & Bukti Keunggulan</b></h4>
-                <p><b>Prompt Visual & Sinematik:</b><br>
+                <p><b>🎬 Prompt Visual & Sinematik:</b><br>
                 Detailed product close-up, functional demonstration. {loc_desc}</p>
-                <p><b>Naskah & Dialog (Sekali Copy):</b><br>
-                <i>"Tekstur dan kualitasnya beda banget dari pasaran. Pas dicoba, langsung terasa bedanya dalam hitungan detik aja."</i></p>
             </div>
+            """, unsafe_allow_html=True)
+            st.text_area("📋 Naskah & Dialog (Frame 2):", "Tekstur dan kualitasnya beda banget dari pasaran. Pas dicoba, langsung terasa bedanya dalam hitungan detik aja.", height=80)
             
-            <div class="frame-box">
+            st.markdown(f"""
+            <div class="frame-card" style="margin-top: 20px;">
                 <h4><b>Frame 3 (20-30s) — Solusi Tuntas & CTA</b></h4>
-                <p><b>Prompt Visual & Sinematik:</b><br>
+                <p><b>🎬 Prompt Visual & Sinematik:</b><br>
                 Satisfied closing, pointing gesture to yellow basket. {loc_desc}</p>
-                <p><b>Naskah & Dialog (Sekali Copy):</b><br>
-                <i>"Udah harganya ramah di kantong, garansi kualitas pula. Yuk buruan amankan stoknya, klik keranjang kuning sekarang juga!"</i></p>
-                <p><b>Google Flow Video Prompt (Full 30s):</b><br>
-                <code>High conversion e-commerce video sequence, smooth transitions, professional color grading.</code></p>
             </div>
-            """.format(loc_desc=loc_desc), unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
+            st.text_area("📋 Naskah & Dialog (Frame 3):", "Udah harganya ramah di kantong, garansi kualitas pula. Yuk buruan amankan stoknya, klik keranjang kuning sekarang juga!", height=80)
+            st.code("Google Flow Video Prompt (Full 30s):\nHigh conversion e-commerce video sequence, smooth transitions, professional color grading.", language="text")
             
     else:
         st.warning("⚠️ Silakan upload foto produk terlebih dahulu di atas, Boss!")
